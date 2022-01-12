@@ -23,7 +23,7 @@ spec:
           ports:
             - containerPort: 3306
               name: mysql
-      restartPolicy: Never
+      restartPolicy: Always
   selector:
     matchLabels:
       app: wordpress
