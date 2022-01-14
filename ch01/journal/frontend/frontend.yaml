@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: frontend
+      labels:
+        app: frontend
+    spec:
+#      volumes:
+#        - name: passwd-volume
+#          secret:
+#            secretName: redis-passwd
+      containers:
+        - name: frontend
+          image: ggammang/kbp-study:ch01-frontend
+          #image: brendanburns/journal-server:latest
+          imagePullPolicy: Always
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          resources:
+            requests:
+              cpu: "0.5"
+              memory : "512M"
+            limits:
+              cpu : "0.5"
+              memory : "512M"
+          #configmap 사용
+#          env:
+#            - name: REDIS_HOST
+#              value: redis
+#            - name: JOURNAL_ENTRIES
+#              valueFrom:
+#                configMapKeyRef:
+#                  key: journalEntries
+#                  name: frontend-config
+#          volumeMounts:
+#            - mountPath: "/etc/redis-passwd"
+#              name: passwd-volume
+#              readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: frontend
